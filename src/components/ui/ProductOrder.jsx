@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { updateOrderStatus } from "../hooks/updateOrderStatus";
-import useOrders from "../hooks/useOrders";
+import { updateOrderStatus } from "../../hooks/updateOrderStatus";
+import useOrders from "../../hooks/useOrders";
+import { Button, SelectBtn } from "../index";
 
 const OrderTable = () => {
   const [status, setStatus] = useState("");
@@ -21,7 +22,6 @@ const OrderTable = () => {
   const handleUpdateStatus = async (orderId) => {
     try {
       await updateOrderStatus(orderId);
-
       if (refetchOrders) {
         refetchOrders();
       }
@@ -34,28 +34,22 @@ const OrderTable = () => {
     return <div className="text-red-500">Error: {error.message}</div>;
   }
 
+  const options = [
+    { value: "", label: "All" },
+    { value: "shipped", label: "Shipped" },
+    { value: "delivered", label: "Delivered" },
+    { value: "processing", label: "Processing" },
+    { value: "pending", label: "Pending" },
+  ];
+
   return (
     <div className="p-4">
-      <div className="mb-4">
-        <label
-          htmlFor="status"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Filter by Status:
-        </label>
-        <select
-          id="status"
-          value={status}
-          onChange={handleStatusChange}
-          className="border border-gray-300 rounded px-3 py-2"
-        >
-          <option value="">All</option>
-          <option value="shipped">Shipped</option>
-          <option value="delivered">Delivered</option>
-          <option value="processing">Processing</option>
-          <option value="pending">Pending</option>
-        </select>
-      </div>
+      <SelectBtn
+        id="status"
+        value={status}
+        onChange={handleStatusChange}
+        options={options}
+      />
 
       <table className="min-w-full bg-white border border-gray-200">
         <thead>
@@ -76,12 +70,12 @@ const OrderTable = () => {
                 <td className="py-2 px-4">${order.total_price.toFixed(2)}</td>
                 <td className="py-2 px-4 capitalize">{order.status}</td>
                 <td className="py-2 px-4">
-                  <button
+                  <Button
                     onClick={() => handleUpdateStatus(order.order_id)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    className="mr-2"
                   >
                     Mark as Picked
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))
@@ -96,22 +90,21 @@ const OrderTable = () => {
       </table>
 
       <div className="mt-4">
-        <button
+        <Button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
           disabled={currentPage === 0}
-          className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+          className="mr-2"
         >
           Previous
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() =>
             setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
           }
           disabled={currentPage >= totalPages - 1}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
   );
