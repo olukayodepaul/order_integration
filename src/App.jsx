@@ -1,11 +1,11 @@
 import { useState } from "react";
-import ProductOrdered from "./components/ui/ProductOrder";
+import ProductOrder from "./components/ui/ProductOrder";
 
 function App() {
   return (
     <>
       <div className="App">
-        <ProductOrdered />
+        <ProductOrder />
       </div>
     </>
   );

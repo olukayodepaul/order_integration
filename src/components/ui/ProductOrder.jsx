@@ -3,7 +3,7 @@ import { updateOrderStatus } from "../../hooks/updateOrderStatus";
 import useOrders from "../../hooks/useOrders";
 import { Button, SelectBtn } from "../index";
 
-const OrderTable = () => {
+const ProductOrder = () => {
   const [status, setStatus] = useState("");
   const {
     orders,
@@ -110,4 +110,4 @@ const OrderTable = () => {
   );
 };
 
-export default OrderTable;
+export default ProductOrder;
